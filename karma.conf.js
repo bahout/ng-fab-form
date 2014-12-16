@@ -14,9 +14,11 @@ module.exports = function(config) {
 
 
     // list of files / patterns to load in the browser
-//    files: [
-//        ['scripts/**/*.js']
-//    ],
+    //files: [
+    //    bower:js
+    //    endbower
+        //'src/**/.js'
+    //],
 
 
     // list of files to exclude

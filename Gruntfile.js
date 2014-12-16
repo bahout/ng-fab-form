@@ -1,7 +1,36 @@
 'use strict';
 
 /* jshint camelcase: false */
+var appConfig = {
+    app: 'src',
+    example: 'example',
+    dist: 'dist',
+    tpl: 'src/templates'
+};
 
+var fs = require('fs-sync');
+function getTestingFiles()
+{
+
+    var testFiles = [];
+    console.log('Getting Bower Component Files...');
+    testFiles.push('node_modules/jasmine-core/lib/jasmine-core/jasmine.js');
+    var indexHtml = fs.read(appConfig.example + '/dev.html');
+    var re = /<script[^s]src=["'](bower_components\/[^"']+)/gm;
+    var match;
+
+    while (match = re.exec(indexHtml)) {
+        var scriptPath = match[1];
+        if (scriptPath.match(/^scripts/)) {
+            scriptPath = appConfig.app + '/' + scriptPath;
+        }
+        testFiles.push(scriptPath);
+    }
+// add app files
+    testFiles.push(appConfig.app + '/{,*/}**/*.js');
+    console.log(testFiles);
+    return testFiles;
+}
 
 module.exports = function (grunt)
 {
@@ -11,12 +40,7 @@ module.exports = function (grunt)
     // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
-    var appConfig = {
-        app: 'src',
-        example: 'example',
-        dist: 'dist',
-        tpl: 'src/templates'
-    };
+
     // Define the configuration for all the tasks
     grunt.initConfig({
         // Watches files for changes and runs tasks based on the changed files
@@ -37,8 +61,7 @@ module.exports = function (grunt)
             js: {
                 files: [
                     '<%= appConfig.app %>/**/*.js',
-                    '<%= appConfig.example %>/**/*.js',
-                    '<%= appConfig.src%>/default-validation-msgs.js'
+                    '<%= appConfig.example %>/**/*.js'
                 ],
                 tasks: [
                     'newer:jshint:all',
@@ -206,7 +229,16 @@ module.exports = function (grunt)
             dev: {
                 src: [
                     '<%= appConfig.example %>/index.html',
-                    '<%= appConfig.example %>/index.html'
+                    '<%= appConfig.example %>/dev.html'
+                ],
+                ignorePath: /\.\.\//,
+                exclude: [],
+                devDependencies: true
+            },
+            test :{
+                src: [
+                    '<%= appConfig.example %>/dev.html',
+                    'karma.conf.js'
                 ],
                 ignorePath: /\.\.\//,
                 exclude: [],
@@ -218,8 +250,7 @@ module.exports = function (grunt)
                     '<%= appConfig.example %>/index.html'
                 ],
                 ignorePath: /\.\.\//,
-                exclude: [],
-                devDependencies: true
+                exclude: []
             }
         },
 
@@ -333,12 +364,13 @@ module.exports = function (grunt)
 // Test settings
         karma: {
             options: {
-                //files: getBowerComponentPaths(),
+                files: getTestingFiles(),
                 preprocessors: {
-                    '<%= appConfig.dist %>/**/*.html': [
+                    '<%= appConfig.src %>/**/*.html': [
                         'ng-html2js'
                     ]
-                }
+                },
+                frameworks: ['jasmine']
             },
             unit: {
                 configFile: 'karma.conf.js',
@@ -376,7 +408,7 @@ module.exports = function (grunt)
         md2html: {
             one_file: {
                 options: {
-                    layout: '<%= appConfig.dist %>/example/index.html',
+                    layout: '<%= appConfig.dist %>/example/index.html'
                 },
                 files: [{
                     src: ['*.md'],
@@ -511,12 +543,14 @@ module.exports = function (grunt)
 
     grunt.registerTask('test', [
         'clean:server',
+        'wiredep:test',
         'connect:test',
         'karma:unit'
     ]);
 
     grunt.registerTask('testSingle', [
         'clean:server',
+        'wiredep:test',
         'connect:test',
         'karma:unitSingleRun'
     ]);
