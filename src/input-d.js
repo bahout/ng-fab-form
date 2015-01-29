@@ -5,3 +5,4 @@ angular.module('ngFabForm')
 
         return ngFabFormDirective;
     }]);
+
