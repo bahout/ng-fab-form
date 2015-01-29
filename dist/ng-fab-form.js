@@ -3,11 +3,7 @@ angular.module('ngFabForm', [
 ]);
 
 angular.module('ngFabForm')
-<<<<<<< HEAD
     .directive('form',['$compile', '$timeout', 'ngFabForm', function ($compile, $timeout, ngFabForm)
-=======
-    .directive('form', function ($compile, $timeout, ngFabForm)
->>>>>>> ef0fd1a381143089a30abdd4115c5dcea26bfcd1
     {
         'use strict';
 
@@ -209,11 +205,8 @@ angular.module('ngFabForm')
                 };
             }
         };
-<<<<<<< HEAD
     }]);
-=======
-    });
->>>>>>> ef0fd1a381143089a30abdd4115c5dcea26bfcd1
+
 
 angular.module('ngFabForm')
     .directive('maxFileSize', function (maxUploadSizeInByte)
@@ -270,20 +263,13 @@ angular.module('ngFabForm')
     });
 
 angular.module('ngFabForm')
-<<<<<<< HEAD
     .directive('input',['ngFabFormDirective', function (ngFabFormDirective)
-=======
-    .directive('input', function (ngFabFormDirective)
->>>>>>> ef0fd1a381143089a30abdd4115c5dcea26bfcd1
     {
         'use strict';
 
         return ngFabFormDirective;
-<<<<<<< HEAD
     }]);
-=======
-    });
->>>>>>> ef0fd1a381143089a30abdd4115c5dcea26bfcd1
+
 
 angular.module('ngFabForm')
     .directive('textarea', function ($compile, ngFabFormDirective)
@@ -302,11 +288,7 @@ angular.module('ngFabForm')
     });
 
 angular.module('ngFabForm')
-<<<<<<< HEAD
     .factory('ngFabFormDirective',['ngFabForm', '$compile', '$templateRequest', '$rootScope', '$timeout', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
-=======
-    .factory('ngFabFormDirective', function (ngFabForm, $compile, $templateRequest, $rootScope, $timeout)
->>>>>>> ef0fd1a381143089a30abdd4115c5dcea26bfcd1
     {
         'use strict';
 
@@ -451,11 +433,8 @@ angular.module('ngFabForm')
                 };
             }
         };
-<<<<<<< HEAD
     }]);
-=======
-    });
->>>>>>> ef0fd1a381143089a30abdd4115c5dcea26bfcd1
+
 
 angular.module('ngFabForm')
     .provider('ngFabForm', function ngFabFormProvider()
